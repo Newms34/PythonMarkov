@@ -1,1 +1,1 @@
-"#PythonMarkov: a Markov Chain Generator in Python" 
+#PythonMarkov: a Markov Chain Generator in Python

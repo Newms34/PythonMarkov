@@ -1,6 +1,7 @@
 import numpy as np 
 import datetime
 import sys
+import ast
 import random
 import requests
 import json
@@ -123,5 +124,39 @@ def get_threds():
 	else:
 		print('Stopped!')
 
-get_threds()
+# get_threds()
 
+def prep_shake():
+	# shake_obj = json.loads(requests.get(os.path.join(sys.path[0], "will_play_text.json")).text)
+	shake_obj = open('will_play_text.json').read()
+	shake_dict = ast.literal_eval(shake_obj)
+	all_shake = ''
+	print(shake_dict[0])
+	for t in range (0,len(shake_dict)):
+		print('Adding line '+str(t)+' of '+str(len(shake_dict))+ '('+str(int(100*t/len(shake_dict)))+'%)')
+		all_shake+=shake_dict[t]['text_entry']+' '
+	shake_mark = markov_make(all_shake)
+	rand_shake = gen_mark_str(shake_mark);
+	#now capitalize for easier reading
+	puncs = ['.','!','?']
+	str_len = len(rand_shake)
+	rand_shake_arr=list(rand_shake)
+	for p in range(0,len(puncs)):
+		index = 0
+		found_arr = []
+		#find all instances of this punctuation
+		while index < str_len:
+			index = rand_shake.find(puncs[p], index)
+			if index == -1:
+				break
+			found_arr.append(index)
+			index += 1
+		for c in range (0,len(found_arr)):
+			if str_len-2 > int(found_arr[c]):
+				rand_shake_arr[found_arr[c]+2] =  str(rand_shake_arr[found_arr[c]+2]).upper()
+
+	rand_shake = "".join(rand_shake_arr)
+	print(rand_shake)
+
+
+prep_shake()

@@ -65,8 +65,9 @@ def gen_mark_str (obj,seed='the',the_len=100):
 	print('GOOD/BAD RATIO ([good,bad]):'+str(good_bad))
 	return end_str
 
-print('------Markov Sample with Declaration of Independence------\n')
-print(gen_mark_str(markov_make(sample_text),'of'))
+def indp():
+	print('------Markov Sample with Declaration of Independence------\n')
+	print(cap_em(gen_mark_str(markov_make(sample_text),'of')))
 
 class MLStripper(HTMLParser):
 	def __init__(self):
@@ -138,25 +139,53 @@ def prep_shake():
 	shake_mark = markov_make(all_shake)
 	rand_shake = gen_mark_str(shake_mark);
 	#now capitalize for easier reading
+	
+
+	rand_shake = cap_em(rand_shake)
+	print(rand_shake)
+
+def cap_em(txt):
 	puncs = ['.','!','?']
-	str_len = len(rand_shake)
-	rand_shake_arr=list(rand_shake)
+	str_len = len(txt)
+	txt_arr=list(txt)
 	for p in range(0,len(puncs)):
 		index = 0
 		found_arr = []
 		#find all instances of this punctuation
 		while index < str_len:
-			index = rand_shake.find(puncs[p], index)
+			index = txt.find(puncs[p], index)
 			if index == -1:
 				break
 			found_arr.append(index)
 			index += 1
 		for c in range (0,len(found_arr)):
 			if str_len-2 > int(found_arr[c]):
-				rand_shake_arr[found_arr[c]+2] =  str(rand_shake_arr[found_arr[c]+2]).upper()
+				if txt_arr[found_arr[c]+1] == " ":
+					txt_arr[found_arr[c]+2] =  str(txt_arr[found_arr[c]+2]).upper()
+				else: 
+					txt_arr[found_arr[c]+1] =  str(txt_arr[found_arr[c]+1]).upper()
+	return "".join(txt_arr)
 
-	rand_shake = "".join(rand_shake_arr)
-	print(rand_shake)
+def choice_me():
+	print('Which text source do you wanna use? Enter the corresponding number:\n----------------------------------------------------\n1: Declaration of Independence\n2: 4chan post data\n3: The works of William Shakespeare\nx: Cancel')
+	chc = input("Choice: ")
+	while chc is not "1" and chc is not "2" and chc is not "3" and chc is not "x":
+		print(chc)
+		print("Invalid choice!\n1: Declaration of Independence\n2: 4chan post data\n3: The works of William Shakespeare\nx: Cancel'")
+		chc = input("Choice: ")
+	if chc == "1":
+		indp()
+	elif chc == "2":
+		get_threds()
+	elif chc == "3":
+		prep_shake()
+	elif chc == "x":
+		print("Okay, bye!")
+	else:
+		print("Something went wrong!")
+	print('----------------------------------------------------')
+	rep = input("Again?\n1: Yes\n2: No\nChoice: ")
+	if rep == "1":
+		choice_me()
 
-
-prep_shake()
+choice_me()

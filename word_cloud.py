@@ -64,12 +64,12 @@ def count_words(txt):
 	draw_graf(final_list,end)
 
 def exception_handler(req,ex):
-	print('There seems to be something wrong with either this script or 4chan.')
+	print('There seems to be something wrong with either this script or 4chan. Probly this script tbh fam')
 	print('The request: '+str(req)+' failed with exception '+str(ex))
 
 def get_threds():
 	#get the threds of a particular board
-	print('------4chan Word Frequency Experiment------\nNOTE: These posts are from an online forum, and as such\nare NOT censored. Use at your own risk!\n---What This Is---\nThis script counts the number of occurances of any particular\nword in a board on 4chan, and returns a descending list\nof those word frequencies.It currently ignores some\n(but not all!) common words.')
+	print('------4chan Word Frequency Experiment------\nNOTE: These posts are from an online forum, and as such\nare NOT censored. Use at your own risk!\n---What This Is---\nThis script counts the number of occurances of any particular\nword in a board on 4chan, and returns a descending list\nof those word frequencies. It currently ignores some\n(but not all!) common words.')
 	which_thred = input("Please input the thread symbol (e.g., sci, g, or vg): ")
 	thred_nums = json.loads(requests.get('https://a.4cdn.org/'+which_thred+'/threads.json').text)
 	num_th = 0
@@ -105,7 +105,7 @@ def get_threds():
 	# got all txt. Now clean it!
 	clean_txt = clean(txt) #clean the text to remove unprintable chars
 	no_html_txt  = strip_tags(clean_txt) #remove HTML tags, since those are not part of the posted data
-	no_link_txt = reg.sub(r'^https?:\/\/.*[\r\n]*', '', no_html_txt)
+	no_link_txt = reg.sub(r'^https?:\/\/.*[\r\n]*', '', no_html_txt)#remove links (mostly)
 	no_quote_txt = reg.sub('&gt;&gt;\d{4,}|&gt;+|>>\d{4,}',' ',no_link_txt) #remove 4chan 'quotes', such as >>blahblah
 	unwanted_symbs = [">","&gt;","[^a-zA-Z0-9']"]
 	for q in range(0,len(unwanted_symbs)):

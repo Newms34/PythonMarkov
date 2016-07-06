@@ -114,6 +114,7 @@ def get_threds():
 				except:
 					txt+=''
 		except: txt+=''
+		txt+=' '
 	# got all txt. Now clean it!
 	clean_txt = clean(txt)
 	no_html_txt  = strip_tags(clean_txt)
